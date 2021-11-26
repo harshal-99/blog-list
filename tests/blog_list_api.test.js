@@ -27,6 +27,24 @@ test('unique property id exists', async () => {
 	expect(response.body[0].id).toBeDefined()
 })
 
+test('new blog can be added', async () => {
+	const blog = {
+		title: 'nice blog',
+		author: 'me',
+		url: 'blog.com',
+		likes: 100
+	}
+
+	await api
+		.post('/api/blogs')
+		.send(blog)
+		.expect(200)
+		.expect("Content-Type", /application\/json/)
+
+	const blogsAtEnd = await blogsInDb()
+	expect(blogsAtEnd).toHaveLength(initialBlogs.length + 1)
+})
+
 afterAll(() => {
 	mongoose.connection.close()
 })
