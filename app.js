@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 import express  from "express"
 import cors     from "cors"
+import "express-async-errors"
 
 import { MONGODB_URI } from "./utils/config.js"
 import logger          from "./utils/logger.js"
