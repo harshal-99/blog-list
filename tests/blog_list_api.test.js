@@ -27,7 +27,7 @@ test('unique property id exists', async () => {
 	expect(response.body[0].id).toBeDefined()
 })
 
-test('new blog can be added', async () => {
+test('a valid note can be added', async () => {
 	const blog = {
 		title: 'nice blog',
 		author: 'me',
@@ -43,6 +43,22 @@ test('new blog can be added', async () => {
 
 	const blogsAtEnd = await blogsInDb()
 	expect(blogsAtEnd).toHaveLength(initialBlogs.length + 1)
+})
+
+test('a blog with missing likes property has 0 likes', async () => {
+	const newBlog = {
+		title: 'nice blog',
+		author: 'me',
+		url: 'blog.com',
+	}
+
+	const response = await api
+		.post('/api/blogs')
+		.send(newBlog)
+		.expect(200)
+		.expect("Content-Type", /application\/json/)
+
+	expect(response.body.likes).toBe(0)
 })
 
 afterAll(() => {
