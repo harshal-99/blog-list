@@ -57,6 +57,21 @@ describe('deletion of a blog', () => {
 })
 
 
+describe('updating a blog', () => {
+	test('succeeds with status code 200 if id is valid', async () => {
+		const blogsAtStart = await blogsInDb()
+		const blogToUpdate = blogsAtStart[0]
+		blogToUpdate.likes += 1
+
+		const updatedBlog = await api
+			.put(`/api/blogs/${blogToUpdate.id}`)
+			.send(blogToUpdate)
+			.expect(200)
+
+		expect(updatedBlog.body.likes).toBe(initialBlogs[0].likes + 1)
+	})
+})
+
 test('unique property id exists', async () => {
 	const response = await api.get('/api/blogs')
 	expect(response.body[0].id).toBeDefined()

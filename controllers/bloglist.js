@@ -1,4 +1,4 @@
-import { Router } from "express"
+import { request, response, Router } from "express"
 
 import Blog from "../models/blog.js"
 
@@ -19,6 +19,21 @@ blogRouter.post("/", async (request, response) => {
 blogRouter.delete('/:id', async (request, response, next) => {
 	await Blog.findByIdAndRemove(request.params.id)
 	response.status(204).end()
+})
+
+blogRouter.put('/:id', async (request, response, next) => {
+	const body = request.body
+
+	const blog = {
+		author: body.author,
+		title: body.title,
+		url: body.url,
+		likes: body.likes
+	}
+
+	const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {new: true})
+
+	response.json(updatedBlog)
 })
 
 export default blogRouter
