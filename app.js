@@ -7,6 +7,8 @@ import { MONGODB_URI } from "./utils/config.js"
 import logger          from "./utils/logger.js"
 import middleware      from "./utils/middleware.js"
 import blogRouter      from "./controllers/bloglist.js"
+import loginRouter     from "./controllers/login.js";
+import userRouter      from "./controllers/users.js";
 
 logger.info("connecting to", MONGODB_URI)
 
@@ -26,6 +28,8 @@ app.use(express.json())
 app.use(middleware.requestLogger)
 
 app.use("/api/blogs", blogRouter)
+app.use('/api/login', loginRouter)
+app.use('/api/users', userRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)

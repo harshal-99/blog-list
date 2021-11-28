@@ -1,3 +1,17 @@
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+  "username": "harshal",
+  "name": "Harshal Pawshekar",
+  "password": "1234"
+}
+
+###
+GET http://localhost:3001/api/users
+Accept: application/json
+
+###
 PUT http://localhost:3001/api/blogs/619e25c43c257570c7135941
 Content-Type: application/json
 
