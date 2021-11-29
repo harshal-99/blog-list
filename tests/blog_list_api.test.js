@@ -77,7 +77,7 @@ test('unique property id exists', async () => {
 	expect(response.body[0].id).toBeDefined()
 })
 
-test('a valid note can be added', async () => {
+test('a valid blog can be added', async () => {
 	const blog = {
 		title: 'nice blog',
 		author: 'me',
@@ -120,7 +120,7 @@ test('blog without title or url are not saved', async () => {
 	await api
 		.post('/api/blogs')
 		.send(newBlog)
-		.expect(400)
+		.expect(401)
 		.expect("Content-Type", /application\/json/)
 })
 
