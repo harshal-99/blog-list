@@ -1,10 +1,35 @@
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+  "username": "Edsger",
+  "title": "Go To Statement Considered Harmful",
+  "author": "Edsger W. Dijkstra",
+  "url": "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+  "likes": "5"
+}
+
+
+
+###
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+  "username": "Edsger",
+  "password": "1234"
+}
+
+
+
+###
 POST http://localhost:3001/api/users
 Content-Type: application/json
 
 {
-  "username": "Michael",
-  "name": "Michael Chan",
-  "password": "88234"
+  "username": "Edsger",
+  "name": "Edsger W. Dijkstra",
+  "password": "1234"
 }
 
 ###

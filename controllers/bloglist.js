@@ -33,6 +33,7 @@ blogRouter.post("/", async (request, response) => {
 	}
 
 	const user = await User.findById(decodedToken.id)
+
 	const blog = new Blog({
 		title: body.title,
 		author: body.author,
