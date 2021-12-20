@@ -24,11 +24,25 @@ const errorHandler = (error, request, response, next) => {
 		return response.status(401).json({
 			error: 'invalid token'
 		})
+	} else if (error.name === 'TokenExpiredError') {
+		return response.status(401).json({
+			error: 'token expired'
+		})
 	}
 
 	next(error)
 }
 
-const middleware = {unknownEndpoint, errorHandler, requestLogger}
+const tokenExtractor = (request, response, next) => {
+	const authorization = request.get('authorization')
+	if (authorization && authorization.toLowerCase().startsWith('bearer')) {
+		request.token = authorization.substring(7)
+	}
+	request.token = null
+
+	next()
+}
+
+const middleware = {unknownEndpoint, errorHandler, requestLogger, tokenExtractor}
 
 export default middleware
