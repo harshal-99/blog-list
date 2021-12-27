@@ -5,23 +5,30 @@ import User from "../models/user.js";
 
 const userRouter = Router()
 
+userRouter.get('/', async (request, response, next) => {
+	const users = await User
+		.find({})
+		.populate('blogs', {title: 1, url: 1, likes: 1, author: 1})
+
+	response.json(users.map(u => u.toJSON()))
+})
+
 userRouter.post('/', async (request, response, next) => {
-	const body = request.body
+	const {password, name, username} = request.body
+
+	if (!password || password.length < 3) {
+		return response.status(400).json({error: 'password must min length 3'})
+	}
+
+	if (!username || username.length < 3) {
+		return response.status(400).json({error: 'username must min length 3'})
+	}
+
 	const saltRounds = 10
-
-	if (body.password === undefined) {
-		return response.status(400).json({error: 'password is too short'})
-	}
-
-	if (body.password.length <= 3) {
-		return response.status(400).json({error: 'password is too short'})
-	}
-
-	const passwordHash = await bcrypt.hash(body.password, saltRounds)
+	const passwordHash = await bcrypt.hash(password, saltRounds)
 
 	const user = new User({
-		username: body?.username,
-		name: body?.name,
+		username, name,
 		passwordHash
 	})
 
@@ -30,12 +37,5 @@ userRouter.post('/', async (request, response, next) => {
 	response.json(savedUser)
 })
 
-userRouter.get('/', async (request, response, next) => {
-	const users = await User
-		.find({})
-		.populate('blogs', {content: 1, date: 1})
-
-	response.json(users)
-})
 
 export default userRouter

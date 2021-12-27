@@ -6,14 +6,19 @@ import "express-async-errors"
 import { MONGODB_URI } from "./utils/config.js"
 import logger          from "./utils/logger.js"
 import middleware      from "./utils/middleware.js"
-import blogRouter      from "./controllers/bloglist.js"
+import blogRouter      from "./controllers/blogs.js"
 import loginRouter     from "./controllers/login.js";
 import userRouter      from "./controllers/users.js";
+
+const app = express()
 
 logger.info("connecting to", MONGODB_URI)
 
 
-mongoose.connect(MONGODB_URI)
+mongoose.connect(MONGODB_URI, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true
+})
 	.then(() => {
 		logger.info("connected to MongoDB")
 	})
@@ -21,7 +26,7 @@ mongoose.connect(MONGODB_URI)
 		logger.error("error connecting to MongoDB:", error.message)
 	})
 
-const app = express()
+
 
 app.use(cors())
 app.use(express.json())

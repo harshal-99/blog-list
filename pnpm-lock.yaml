@@ -9,6 +9,7 @@ specifiers:
   express-async-errors: ^3.1.1
   jest: ^27.3.1
   jsonwebtoken: ^8.5.1
+  lodash: ^4.17.21
   mongoose: ^6.0.13
   mongoose-unique-validator: ^3.0.0
   morgan: ^1.10.0
@@ -22,6 +23,7 @@ dependencies:
   express: 4.17.1
   express-async-errors: 3.1.1_express@4.17.1
   jsonwebtoken: 8.5.1
+  lodash: 4.17.21
   mongoose: 6.0.13
   mongoose-unique-validator: 3.0.0_mongoose@6.0.13
   morgan: 1.10.0
@@ -2719,7 +2721,6 @@ packages:
 
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
-    dev: true
 
   /lowercase-keys/1.0.1:
     resolution: {integrity: sha512-G2Lj61tXDnVFFOi8VZds+SoQjtQC3dgokKdDG2mTm1tx4m50NUHBOZSBwQQHyy0V12A0JTG4icfZQH+xPyh8VA==}

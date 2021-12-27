@@ -1,48 +1,54 @@
+import _ from 'lodash'
+
 export const dummy = blogs => {
 	return 1
 }
 
 export const totalLikes = blogPost => {
-	return blogPost.reduce((sum, likes) => {
-		return sum + likes.likes
-	}, 0)
+	if (!blogPost.length) return 0
+	return blogPost.reduce((sum, likes) => sum + likes.likes, 0)
 }
 
 export const favoriteBlog = blogs => {
-	let mostLiked = {likes: 0}
-	for (let i = 0; i < blogs.length; i++) {
-		if (blogs[i].likes >= mostLiked.likes) {
-			mostLiked = blogs[i]
-		}
+	if (blogs.length === 0) {
+		return null
 	}
 
-	return {
-		title: mostLiked.title,
-		author: mostLiked.author,
-		likes: mostLiked.likes
+	const withMostVotes = (best, current) => {
+		if (!best) {
+			return current
+		}
+
+		return best.likes > current.likes ? best : current
 	}
+
+	return blogs.reduce(withMostVotes, null)
 }
 
 export const mostBlogs = blogs => {
-	let authorBlogs = new Map()
-	for (let i = 0; i < blogs.length; i++) {
-		if (authorBlogs.has(blogs[i].author)) {
-			let blog = authorBlogs.get(blogs[i].author)
-			authorBlogs.set(blogs[i].author, blog + 1)
-		} else {
-			authorBlogs.set(blogs[i].author, 1)
-		}
+	if (blogs.length === 0) {
+		return null
 	}
 
-	let maxBlogs = {
-		author: "",
-		blogs: 0
+	const blogsByAuthor = _.toPairs(_.groupBy(blogs, b => b.author))
+	const blockCountByAuthor = blogsByAuthor.map(([ author, blogs ]) => ({
+		author,
+		blogs: blogs.length
+	})).sort((a1, a2) => a2.blogs - a1.blogs)
+
+	return blockCountByAuthor[0]
+}
+
+export const mostLikes = blogs => {
+	if (blogs.length === 0) {
+		return null
 	}
-	for (const authorBlog of authorBlogs) {
-		if (authorBlog[1] >= maxBlogs.blogs) {
-			maxBlogs.author = authorBlog[0]
-			maxBlogs.blogs = authorBlog[1]
-		}
-	}
-	return maxBlogs
+
+	const blogsByAuthor = _.toPairs(_.groupBy(blogs, b => b.author))
+	const likeCountByAuthor = blogsByAuthor.map(([ author, blogs ]) => ({
+		author,
+		likes: blogs.reduce((s, b) => s + b.likes, 0)
+	})).sort((a1, a2) => a2.likes - a1.likes)
+
+	return likeCountByAuthor[0]
 }
