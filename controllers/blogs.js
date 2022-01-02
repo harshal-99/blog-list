@@ -38,8 +38,17 @@ blogRouter.post("/", async (request, response) => {
 	blog.user = user
 	const savedBlog = await blog.save()
 
-	user.blogs = user.blogs.concat(savedBlog._id)
-	await user.save()
+	User.findByIdAndUpdate(decodedToken.id, {blogs: user.blogs.concat(savedBlog._id)}, {
+		runValidators: true,
+		context: 'query'
+	})
+
+	// user.save() creates a new user but mongoose-unique-validator throws an error
+	// because a user with same ID already exists according to mongoose-unique-validator docs
+	// use instead findByIdAndUpdate
+
+	/*user.blogs = user.blogs.concat(savedBlog._id)
+	await user.save()*/
 
 	response.status(201).json(savedBlog)
 })

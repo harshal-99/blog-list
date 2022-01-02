@@ -1,9 +1,9 @@
 import mongoose from "mongoose"
 
 const blogSchema = new mongoose.Schema({
-	title: {type: String, required: true},
-	author: {type: String, required: true},
-	url: {type: String, required: true},
+	title: {type: String},
+	author: {type: String},
+	url: {type: String},
 	likes: {type: Number, default: 0},
 	user: {type: mongoose.Schema.Types.ObjectId, ref: "User"}
 })
